@@ -2,74 +2,42 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { Alert, Image, Pressable, Text, View } from "react-native";
 import ADIcon from "react-native-vector-icons/AntDesign";
-
 import { NativeWindStyleSheet } from "nativewind";
 import IdeaCard from "./app/IdeaCard";
 import runCompletion from "./app/openai";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "./app/HomeScreen";
+import IdeaList from "./app/IdeaList";
+import IdeaDetails from "./app/IdeaDetails";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
 });
 
 export default function App() {
-  const [ideaGenerated, setIdeaGenerated] = useState(false);
-  const [currentIdeas, setCurrentIdeas] = useState(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-
-  function generateIdeas() {
-    setIsGenerating(true); //display generating animation
-    runCompletion()
-      .then((appIdeas) => {
-        setCurrentIdeas(appIdeas);
-        setIdeaGenerated(true);
-        setIsGenerating(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function ideaList(ideaArray: Idea[]) {
-    if (ideaArray) {
-      return ideaArray.map((idea, index) => {
-        return <IdeaCard idea={idea} index={index} key={index} />;
-      });
-    }
-  }
+  const Stack = createNativeStackNavigator();
 
   return (
-    <View className="flex flex-col  px-8 justify-between py-8 pt-14 bg-white h-full ">
-      <Text className="  font-bold text-3xl  ">App Idea Generator</Text>
-
-      <View className="items-center mx-16 py-4 rounded-full justify-center bg-green-500 animate-spin ">
-        <Pressable
-          onPress={() => {
-            setIdeaGenerated(false);
-          }}
-        >
-          <ADIcon name="questioncircleo" size={200} />
-        </Pressable>
-      </View>
-      <View>
-        {ideaGenerated && currentIdeas ? (
-          <View>{ideaList(currentIdeas)}</View>
-        ) : (
-          <Text className="text-lg mt-16">
-            {isGenerating
-              ? "Ideas being generated..."
-              : "Click the button below to generate 5 app ideas."}
-          </Text>
-        )}
-
-        <Pressable
-          className="bg-green-500  p-4 mt-4 px-6 rounded-3xl flex flex-row items-center justify-between active:bg-green-600 "
-          onPress={generateIdeas}
-        >
-          <Text className="font-bold text-3xl">Generate</Text>
-          <ADIcon name="arrowright" size={50} />
-        </Pressable>
-      </View>
-      <StatusBar style="light" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: "Home" }}
+        />
+        <Stack.Screen
+          name="IdeaList"
+          component={IdeaList}
+          options={{ title: "Generated Ideas" }}
+        />
+        <Stack.Screen
+          name="IdeaDetails"
+          component={IdeaDetails}
+          options={{ title: "Idea Details" }}
+        />
+      </Stack.Navigator>
+      <StatusBar style="auto" />
+    </NavigationContainer>
   );
 }

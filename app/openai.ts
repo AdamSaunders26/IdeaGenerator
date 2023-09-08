@@ -1,4 +1,4 @@
-export default async function runCompletion(inputMessage?: string) {
+export default async function runCompletion(level: string, focus: string) {
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -13,7 +13,7 @@ export default async function runCompletion(inputMessage?: string) {
           {
             role: "user",
             content:
-              "Generate 5 app ideas as an array of json with the keys 'name', 'description' and 'category'.",
+              "Generate 5 app ideas that only an intermediate level coder could make, with a focus on education, as an array of json with the keys 'name', 'description' and 'category' as well as a key of 'features' which is an array of strings.",
           },
         ],
 
@@ -23,7 +23,7 @@ export default async function runCompletion(inputMessage?: string) {
     });
 
     const aiAnswer = await response.json();
-    // console.log(aiAnswer.choices[0].message.content);
+
     return JSON.parse(aiAnswer.choices[0].message.content);
   } catch (error) {
     console.error(error);

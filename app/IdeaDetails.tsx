@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function IdeaDetails({ route }: Props) {
-  const { name, category, description } = route.params.idea;
+  const { name, category, description, features } = route.params.idea;
 
   return (
     <View className="flex flex-col  px-8 justify-around  py-4 pb-6 bg-white h-full ">
@@ -19,7 +19,10 @@ export default function IdeaDetails({ route }: Props) {
           <Text className="text-3xl">{name}</Text>
           <Text className="text-xl text-neutral-600">{category}</Text>
         </View>
-        <Text className="text-2xl">{description}</Text>
+        <Text className="text-2xl mb-2">{description}</Text>
+        {features.map((feature) => {
+          return <Text className="text-xl"> - {feature}</Text>;
+        })}
 
         {/* <Pressable className="bg-green-500  p-4 mt-4 px-6 rounded-3xl flex flex-row items-center justify-between active:bg-green-600 ">
           <Text className="font-bold text-3xl">Not needed?</Text>

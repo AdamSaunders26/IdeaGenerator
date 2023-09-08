@@ -1,9 +1,7 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { Alert, Image, Pressable, Text, View } from "react-native";
+import { Alert, Image, Pressable, Text, TextInput, View } from "react-native";
 import ADIcon from "react-native-vector-icons/AntDesign";
-import runCompletion from "./openai";
-import IdeaCard from "./IdeaCard";
+import { Slider } from "@miblanchard/react-native-slider";
 import { NavigationProp } from "@react-navigation/native";
 
 interface Props {
@@ -11,6 +9,18 @@ interface Props {
 }
 
 export default function HomeScreen({ navigation }: Props) {
+  const [expertiseLevel, setExpertiseLevel] = useState<string>("Beginner");
+  const [appFocus, setAppFocus] = useState<string>("");
+  interface Lookup {
+    [key: number]: string;
+  }
+  const expertiseLevelLookup: Lookup = {
+    0: "Beginner",
+    1: "Intermediate",
+    2: "Expert",
+    3: "Master",
+  };
+  console.log(appFocus);
   return (
     <View className="flex flex-col  px-8 justify-between  py-4 pb-6 bg-white h-full ">
       <View className="items-center mx-16 py-4 rounded-full justify-center bg-green-500 animate-spin ">
@@ -23,6 +33,36 @@ export default function HomeScreen({ navigation }: Props) {
         </Pressable>
       </View>
       <View>
+        <Text className="text-xl mx-2">Focus for app ideas:</Text>
+        <TextInput
+          inputMode="text"
+          maxLength={20}
+          value={appFocus}
+          onChangeText={(e) => {
+            // console.log(e);
+            setAppFocus(e);
+          }}
+          className="bg-neutral-200 mb-10 text-2xl rounded-2xl p-4 "
+        />
+        <Text className="text-xl mx-2 mb-8">Select level of expertise:</Text>
+        <Slider
+          onValueChange={(e) => {
+            setExpertiseLevel(expertiseLevelLookup[e[0]]);
+          }}
+          renderAboveThumbComponent={(e) => {
+            // console.log(typeof e, e);
+            return (
+              <View className="flex  justify-center items-center  -m-8">
+                <Text className="text-lg">{expertiseLevel}</Text>
+              </View>
+            );
+          }}
+          minimumValue={0}
+          maximumValue={3}
+          step={1}
+          thumbTintColor="#22C55E"
+          minimumTrackTintColor="#22C55E"
+        />
         <Text className="text-lg mt-16">
           Click the button below to generate 5 app ideas.
         </Text>

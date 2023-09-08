@@ -1,17 +1,35 @@
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { NavigationProp } from "@react-navigation/native";
 
 interface Props {
-  idea: Idea;
+  idea: Idea | number;
   index: number;
+  navigation?: NavigationProp<any>;
 }
 
-export default function IdeaCard({ idea, index }: Props) {
-  return (
-    <View className="border-4 border-green-500 my-1 p-2 rounded-xl flex flex-row justify-between">
-      <Text className="text-xl font-bold">
-        {index + 1}. {idea.name}
-      </Text>
-      <Text className="text-xl">{idea.category}</Text>
-    </View>
-  );
+export default function IdeaCard({ idea, index, navigation }: Props) {
+  if (typeof idea === "number") {
+    return (
+      <View className="border-4  border-green-500 my-1 p-2 rounded-xl flex flex-row justify-between">
+        <Text className="text-xl text-neutral-500 font-bold">
+          {idea}. Generating
+        </Text>
+      </View>
+    );
+  } else {
+    return (
+      <Pressable
+        onPress={() => {
+          navigation?.navigate("IdeaDetails", { idea: idea });
+        }}
+      >
+        <View className="border-4 border-green-500 my-1 p-2 rounded-xl flex flex-row justify-between">
+          <Text className="text-xl font-bold">
+            {index + 1}. {idea.name}
+          </Text>
+          <Text className="text-xl">{idea.category}</Text>
+        </View>
+      </Pressable>
+    );
+  }
 }

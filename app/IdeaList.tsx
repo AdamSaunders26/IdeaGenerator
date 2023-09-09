@@ -1,23 +1,27 @@
 import { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import runCompletion from "./openai";
 import ADIcon from "react-native-vector-icons/AntDesign";
 import IdeaCard from "./IdeaCard";
+import QuestionMark from "./Components/QuestionMark";
 
 interface Props {
   navigation: NavigationProp<any>;
+  route: RouteProp<{ params: { focus: string; level: string } }>;
 }
 
-export default function IdeaList({ navigation }: Props) {
+export default function IdeaList({ navigation, route }: Props) {
   const [ideaGenerated, setIdeaGenerated] = useState(false);
   const [currentIdeas, setCurrentIdeas] = useState<Idea[] | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
+  const { level, focus } = route.params;
+
   function generateIdeas() {
     setIsGenerating(true);
 
-    runCompletion()
+    runCompletion(level, focus)
       .then((appIdeas) => {
         setCurrentIdeas(appIdeas);
         setIdeaGenerated(true);
@@ -54,9 +58,7 @@ export default function IdeaList({ navigation }: Props) {
 
   return (
     <View className="flex flex-col  px-8 justify-between  py-4 pb-6 bg-white h-full ">
-      <View className="items-center mx-16 py-4 rounded-full justify-center bg-green-500 animate-spin ">
-        <ADIcon name="questioncircleo" size={200} />
-      </View>
+      <QuestionMark />
       <View>
         <View>{ideaMap(currentIdeas)}</View>
         <Pressable

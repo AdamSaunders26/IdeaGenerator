@@ -12,8 +12,7 @@ export default async function runCompletion(level: string, focus: string) {
         messages: [
           {
             role: "user",
-            content:
-              "Generate 5 app ideas that only an intermediate level coder could make, with a focus on education, as an array of json with the keys 'name', 'description' and 'category' as well as a key of 'features' which is an array of strings.",
+            content: `Generate 5 app ideas that only an ${level.toLowerCase()} level coder could make, with a focus on ${focus.toLowerCase()}. Your answer should be formatted as an array of json with the keys 'name', 'description' and 'category' as well as a key of 'features' which is an array of strings.`,
           },
         ],
 
@@ -23,7 +22,6 @@ export default async function runCompletion(level: string, focus: string) {
     });
 
     const aiAnswer = await response.json();
-
     return JSON.parse(aiAnswer.choices[0].message.content);
   } catch (error) {
     console.error(error);

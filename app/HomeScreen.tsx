@@ -3,6 +3,7 @@ import { Alert, Image, Pressable, Text, TextInput, View } from "react-native";
 import ADIcon from "react-native-vector-icons/AntDesign";
 import { Slider } from "@miblanchard/react-native-slider";
 import { NavigationProp } from "@react-navigation/native";
+import QuestionMark from "./Components/QuestionMark";
 
 interface Props {
   navigation: NavigationProp<any>;
@@ -11,6 +12,7 @@ interface Props {
 export default function HomeScreen({ navigation }: Props) {
   const [expertiseLevel, setExpertiseLevel] = useState<string>("Beginner");
   const [appFocus, setAppFocus] = useState<string>("");
+
   interface Lookup {
     [key: number]: string;
   }
@@ -20,18 +22,10 @@ export default function HomeScreen({ navigation }: Props) {
     2: "Expert",
     3: "Master",
   };
-  console.log(appFocus);
+
   return (
     <View className="flex flex-col  px-8 justify-between  py-4 pb-6 bg-white h-full ">
-      <View className="items-center mx-16 py-4 rounded-full justify-center bg-green-500 animate-spin ">
-        <Pressable
-          onPress={() => {
-            // setIdeaGenerated(false);
-          }}
-        >
-          <ADIcon name="questioncircleo" size={200} />
-        </Pressable>
-      </View>
+      <QuestionMark />
       <View>
         <Text className="text-xl mx-2">Focus for app ideas:</Text>
         <TextInput
@@ -39,7 +33,6 @@ export default function HomeScreen({ navigation }: Props) {
           maxLength={20}
           value={appFocus}
           onChangeText={(e) => {
-            // console.log(e);
             setAppFocus(e);
           }}
           className="bg-neutral-200 mb-10 text-2xl rounded-2xl p-4 "
@@ -50,7 +43,6 @@ export default function HomeScreen({ navigation }: Props) {
             setExpertiseLevel(expertiseLevelLookup[e[0]]);
           }}
           renderAboveThumbComponent={(e) => {
-            // console.log(typeof e, e);
             return (
               <View className="flex  justify-center items-center  -m-8">
                 <Text className="text-lg">{expertiseLevel}</Text>
@@ -69,7 +61,10 @@ export default function HomeScreen({ navigation }: Props) {
         <Pressable
           className="bg-green-500  p-4 mt-4 px-6 rounded-3xl flex flex-row items-center justify-between active:bg-green-600 "
           onPress={() => {
-            navigation.navigate("IdeaList");
+            navigation.navigate("IdeaList", {
+              focus: appFocus,
+              level: expertiseLevel,
+            });
           }}
         >
           <Text className="font-bold text-3xl">Generate</Text>

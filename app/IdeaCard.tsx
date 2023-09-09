@@ -1,5 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
+import ADIcon from "react-native-vector-icons/AntDesign";
 
 interface Props {
   idea: Idea | number;
@@ -23,11 +24,14 @@ export default function IdeaCard({ idea, index, navigation }: Props) {
           navigation?.navigate("IdeaDetails", { idea: idea });
         }}
       >
-        <View className="border-4 border-green-500 my-1 p-2 rounded-xl flex flex-row justify-between">
-          <Text className="text-xl font-bold">
-            {index + 1}. {idea.name}
-          </Text>
-          <Text className="text-xl">{idea.category}</Text>
+        <View className="border-4 border-green-500 my-1 p-2 rounded-xl flex flex-row items-center justify-between ">
+          <View className="flex">
+            <Text className="text-xl font-bold">
+              {index + 1}. {idea.name}
+            </Text>
+            <Text className="text-xl ">{idea.category}</Text>
+          </View>
+          <ADIcon name={idea.icon} size={50} />
         </View>
       </Pressable>
     );

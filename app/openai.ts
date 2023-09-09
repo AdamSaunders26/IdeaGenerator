@@ -1,4 +1,4 @@
-export default async function runCompletion(inputMessage?: string) {
+export default async function runCompletion(level: string, focus: string) {
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -12,8 +12,7 @@ export default async function runCompletion(inputMessage?: string) {
         messages: [
           {
             role: "user",
-            content:
-              "Generate 5 app ideas as an array of json with the keys 'name', 'description' and 'category'.",
+            content: `Generate 5 app ideas that an ${level.toLowerCase()} level coder could make, with a focus on ${focus.toLowerCase()}. Your answer should be an array of json with the keys 'name','description','category','features' which is an array of strings, and 'icon' which is the name of an icon that matches the category from react-native-vector-icons but only using the AntDesign icons.`,
           },
         ],
 
@@ -23,9 +22,8 @@ export default async function runCompletion(inputMessage?: string) {
     });
 
     const aiAnswer = await response.json();
-    // console.log(aiAnswer.choices[0].message.content);
     return JSON.parse(aiAnswer.choices[0].message.content);
   } catch (error) {
-    console.error(error);
+    console.error("openai", error);
   }
 }

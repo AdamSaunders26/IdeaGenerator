@@ -6,6 +6,7 @@ declare global {
     description: string;
     features: string[];
     category: string;
+    icon: string;
   }
 }
 

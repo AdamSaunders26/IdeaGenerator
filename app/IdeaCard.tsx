@@ -1,4 +1,4 @@
-import { Pressable, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import ADIcon from "react-native-vector-icons/AntDesign";
 
@@ -12,9 +12,13 @@ export default function IdeaCard({ idea, index, navigation }: Props) {
   if (typeof idea === "number") {
     return (
       <View className="border-4  border-green-500 my-1 p-2 rounded-xl flex flex-row justify-between">
-        <Text className="text-xl text-neutral-500 font-bold">
-          {idea}. Generating
-        </Text>
+        <View>
+          <Text className="text-xl text-neutral-500 font-bold">
+            {idea}. Generating
+          </Text>
+          <Text> </Text>
+        </View>
+        <ActivityIndicator />
       </View>
     );
   } else {
@@ -31,6 +35,7 @@ export default function IdeaCard({ idea, index, navigation }: Props) {
             </Text>
             <Text className="text-xl ">{idea.category}</Text>
           </View>
+
           <ADIcon name={idea.icon} size={50} />
         </View>
       </Pressable>

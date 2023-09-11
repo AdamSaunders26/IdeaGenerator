@@ -61,13 +61,13 @@ export default function IdeaList({ navigation, route }: Props) {
       <QuestionMark />
       <View>
         <View>{ideaMap(currentIdeas)}</View>
-        <Pressable
+        {/* <Pressable
           className="bg-green-500  p-4 mt-4 px-6 rounded-3xl flex flex-row items-center justify-between active:bg-green-600 "
           onPress={generateIdeas}
         >
           <Text className="font-bold text-3xl">Generate</Text>
           <ADIcon name="arrowright" size={50} />
-        </Pressable>
+        </Pressable> */}
       </View>
     </View>
   );

@@ -4,6 +4,7 @@ import ADIcon from "react-native-vector-icons/AntDesign";
 import { Slider } from "@miblanchard/react-native-slider";
 import { NavigationProp } from "@react-navigation/native";
 import QuestionMark from "./Components/QuestionMark";
+import SkeletonCard from "./SkeletonCard";
 
 interface Props {
   navigation: NavigationProp<any>;

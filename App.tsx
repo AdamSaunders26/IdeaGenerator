@@ -1,23 +1,24 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { Alert, Image, Pressable, Text, View } from "react-native";
-import ADIcon from "react-native-vector-icons/AntDesign";
 import { NativeWindStyleSheet } from "nativewind";
-import IdeaCard from "./app/IdeaCard";
-import runCompletion from "./app/openai";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./app/HomeScreen";
-import IdeaList from "./app/IdeaList";
-import IdeaDetails from "./app/IdeaDetails";
+import HomeScreen from "./app/Screens/HomeScreen";
+import IdeaList from "./app/Screens/IdeaList";
+import IdeaDetails from "./app/Screens/IdeaDetails";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
 });
 
-export default function App() {
-  const Stack = createNativeStackNavigator();
+export type StackParamList = {
+  Home: undefined;
+  IdeaList: { focus: string; level: string; feature: string };
+  IdeaDetails: { idea: Idea };
+};
 
+export default function App() {
+  const Stack = createNativeStackNavigator<StackParamList>();
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">

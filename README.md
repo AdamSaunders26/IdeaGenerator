@@ -1,4 +1,4 @@
-## App Idea Generate
+## App Idea Generator
 
 A React Native project that uses OpenAI models to generate app ideas based on user inputs such as desired features or skill level. This app helps developers and entrepreneurs brainstorm new app concepts.
 
